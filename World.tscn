@@ -34,6 +34,8 @@ friction = 0.5
 [node name="Contraption" type="Node2D" parent="."]
 position = Vector2( 200.331, 199.094 )
 script = ExtResource( 4 )
+I = 0.004
+D = 0.18
 
 [node name="Base" type="StaticBody2D" parent="Contraption"]
 collision_mask = 0
