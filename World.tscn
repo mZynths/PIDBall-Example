@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Servo.gd" type="Script" id=2]
@@ -25,6 +25,9 @@ extents = Vector2( 5, 5 )
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 30.0
+
+[sub_resource type="PhysicsMaterial" id=7]
+friction = 0.5
 
 [node name="World" type="Node2D"]
 
@@ -184,6 +187,7 @@ position = Vector2( 352.096, 383.708 )
 position = Vector2( 352.096, 383.708 )
 
 [node name="WorldLimits" type="StaticBody2D" parent="."]
+physics_material_override = SubResource( 7 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldLimits"]
 polygon = PoolVector2Array( -0.44751, 438.6, 391.309, 439.462, 393.607, -0.403778, 449.045, -1.90208, 446.746, 492.378, -45.3967, 497.034, -49.8917, -58.8378, 446.048, -61.8344, 449.045, -3.40039, 0, 0, 0, 0 )
