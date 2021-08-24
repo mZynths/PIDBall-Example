@@ -157,18 +157,31 @@ __meta__ = {
 }
 
 [node name="Ball" parent="." instance=ExtResource( 1 )]
+position = Vector2( 218.582, 85.776 )
 
 [node name="Ball2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 361.44, 406.4 )
+position = Vector2( 352.096, 383.708 )
 
 [node name="Ball3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 325.573, 413.007 )
+position = Vector2( 352.096, 383.708 )
 
 [node name="Ball4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 285.93, 413.951 )
+position = Vector2( 352.096, 383.708 )
 
 [node name="Ball5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 251.007, 402.624 )
+position = Vector2( 352.096, 383.708 )
+
+[node name="Ball6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 352.096, 383.708 )
+
+[node name="Ball7" parent="." instance=ExtResource( 1 )]
+position = Vector2( 352.096, 383.708 )
+
+[node name="Ball8" parent="." instance=ExtResource( 1 )]
+position = Vector2( 352.096, 383.708 )
+
+[node name="Ball9" parent="." instance=ExtResource( 1 )]
+position = Vector2( 352.096, 383.708 )
 
 [node name="WorldLimits" type="StaticBody2D" parent="."]
 
