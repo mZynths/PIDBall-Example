@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Servo.gd" type="Script" id=2]
@@ -17,25 +17,63 @@ height = 160.0
 radius = 5.0
 height = 59.3423
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 120, 5 )
+[sub_resource type="PhysicsMaterial" id=4]
+absorbent = true
 
 [sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 120, 5 )
+
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 5, 5 )
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=7]
 radius = 30.0
 
-[sub_resource type="PhysicsMaterial" id=7]
+[sub_resource type="PhysicsMaterial" id=8]
 friction = 0.5
 
 [node name="World" type="Node2D"]
+__meta__ = {
+"_edit_vertical_guides_": [ -141.25 ]
+}
 
 [node name="Contraption" type="Node2D" parent="."]
-position = Vector2( 200.331, 199.094 )
+position = Vector2( 200, 200 )
 script = ExtResource( 4 )
-I = 0.004
-D = 0.18
+P = 0.6
+D = 0.35
+eI = false
+
+[node name="Control" type="Control" parent="Contraption"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -200.331
+margin_top = -199.094
+margin_right = -200.331
+margin_bottom = -199.094
+rect_scale = Vector2( 0.972426, 0.996573 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value" type="HSlider" parent="Contraption/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 88.0994
+margin_top = 108.122
+margin_right = 314.099
+margin_bottom = 124.122
+size_flags_horizontal = 3
+min_value = 30.0
+max_value = 170.0
+value = 100.0
+tick_count = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Base" type="StaticBody2D" parent="Contraption"]
 collision_mask = 0
@@ -68,7 +106,6 @@ __meta__ = {
 
 [node name="Arm" type="RigidBody2D" parent="Contraption"]
 position = Vector2( -105, 0 )
-collision_mask = 0
 __meta__ = {
 "_edit_lock_": true
 }
@@ -97,19 +134,20 @@ __meta__ = {
 
 [node name="Platform" type="RigidBody2D" parent="Contraption"]
 collision_mask = 0
+physics_material_override = SubResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Contraption/Platform"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Contraption/Platform"]
 position = Vector2( -115, -10 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 disabled = true
 __meta__ = {
 "_edit_lock_": true
@@ -117,7 +155,7 @@ __meta__ = {
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Contraption/Platform"]
 position = Vector2( 115, -10 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 disabled = true
 __meta__ = {
 "_edit_lock_": true
@@ -125,7 +163,7 @@ __meta__ = {
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Contraption/Platform"]
 position = Vector2( 0, 10 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -134,11 +172,13 @@ __meta__ = {
 position = Vector2( 110, -10 )
 rotation = 1.5708
 enabled = true
-cast_to = Vector2( 0, 210 )
+cast_to = Vector2( 0, 220 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
+polling_rate = 0.05
+max_error = 0.2
 
 [node name="Servo" type="RigidBody2D" parent="Contraption"]
 position = Vector2( -80, 60 )
@@ -147,6 +187,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
+max_ang_velocity = 10.0
 
 [node name="PinJoint2D2" type="PinJoint2D" parent="Contraption/Servo"]
 node_a = NodePath("../../Base")
@@ -156,40 +197,58 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Contraption/Servo"]
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Ball" parent="." instance=ExtResource( 1 )]
-position = Vector2( 218.582, 85.776 )
-
-[node name="Ball2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball7" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball8" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
-[node name="Ball9" parent="." instance=ExtResource( 1 )]
-position = Vector2( 352.096, 383.708 )
-
 [node name="WorldLimits" type="StaticBody2D" parent="."]
-physics_material_override = SubResource( 7 )
+physics_material_override = SubResource( 8 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldLimits"]
 polygon = PoolVector2Array( -0.44751, 438.6, 391.309, 439.462, 393.607, -0.403778, 449.045, -1.90208, 446.746, 492.378, -45.3967, 497.034, -49.8917, -58.8378, 446.048, -61.8344, 449.045, -3.40039, 0, 0, 0, 0 )
+
+[node name="Ball" parent="." instance=ExtResource( 1 )]
+position = Vector2( 251.484, 70.216 )
+
+[node name="Ball2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball7" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball8" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball9" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball10" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball11" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball12" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball13" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball14" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
+
+[node name="Ball15" parent="." instance=ExtResource( 1 )]
+position = Vector2( 306.737, 409.119 )
