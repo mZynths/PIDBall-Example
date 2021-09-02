@@ -10,7 +10,7 @@ absorbent = true
 [sub_resource type="CircleShape2D" id=2]
 
 [node name="Ball" type="RigidBody2D" groups=[
-"Ball",
+"Balls",
 ]]
 input_pickable = true
 physics_material_override = SubResource( 1 )
