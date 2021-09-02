@@ -7,7 +7,7 @@ var mouse_is_inside = false
 
 func _process(delta):
 	if picked_up:
-		linear_velocity = (get_global_mouse_position() - global_position) * 25
+		linear_velocity = ((get_global_mouse_position() - global_position) * 25).clamped(1000)
 	
 	if mouse_is_inside and Input.is_mouse_button_pressed(1):
 		picked_up = true
