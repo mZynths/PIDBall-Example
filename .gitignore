@@ -9,4 +9,5 @@ export_presets.cfg
 data_*/
 
 # Workflow-specific ignores
-exports/
+.vscode
+html/
