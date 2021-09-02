@@ -3,8 +3,7 @@
 [ext_resource path="res://distance_meter.gd" type="Script" id=1]
 
 [node name="RayCast2D" type="RayCast2D"]
-position = Vector2( 110, -10 )
-rotation = 1.5708
+modulate = Color( 0.453125, 1, 0, 1 )
 enabled = true
 cast_to = Vector2( 0, 220 )
 script = ExtResource( 1 )

@@ -27,7 +27,7 @@ func get_measurement(delta):
 		last_measurement = measurement
 		measurement = ultrasonic.result
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
-		error = measurement - (distance_setpoint-20)
+		error = measurement - (distance_setpoint-10)
 		deg_setpoint = (error*P*int(eP)) + (integral_error*I*int(eI)) + (ball_velocity*(-D)*int(eD))
 		integral_error += error
 

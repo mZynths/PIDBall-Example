@@ -312,8 +312,10 @@ __meta__ = {
 }
 
 [node name="RightEnd" type="CollisionShape2D" parent="Contraption/Platform"]
+visible = false
 position = Vector2( 115, -10 )
 shape = SubResource( 6 )
+disabled = true
 __meta__ = {
 "_edit_lock_": true
 }
@@ -327,6 +329,9 @@ __meta__ = {
 }
 
 [node name="RayCast2D" parent="Contraption/Platform" instance=ExtResource( 3 )]
+position = Vector2( 120, -10 )
+rotation = 1.5708
+cast_to = Vector2( 0, 240 )
 
 [node name="Servo" type="RigidBody2D" parent="Contraption"]
 position = Vector2( -80, 60 )
