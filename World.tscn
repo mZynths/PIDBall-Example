@@ -1,10 +1,20 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Servo.gd" type="Script" id=2]
-[ext_resource path="res://distance_meter.gd" type="Script" id=3]
+[ext_resource path="res://Distance_meter.tscn" type="PackedScene" id=3]
 [ext_resource path="res://PLC.gd" type="Script" id=4]
 [ext_resource path="res://World.gd" type="Script" id=5]
+[ext_resource path="res://BalooDa2-Medium.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=9]
+size = 12
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=10]
+default_font = SubResource( 9 )
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
@@ -36,46 +46,190 @@ friction = 0.5
 [node name="World" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_vertical_guides_": [ -141.25 ]
+"_edit_lock_": true
 }
 
-[node name="Contraption" type="Node2D" parent="."]
-position = Vector2( 200, 200 )
-script = ExtResource( 4 )
-P = 0.7
-I = 0.0
-D = 0.38
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 390.0
+margin_bottom = 123.0
+theme = SubResource( 10 )
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Control" type="Control" parent="Contraption"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -200.331
-margin_top = -199.094
-margin_right = -200.331
-margin_bottom = -199.094
-rect_scale = Vector2( 0.972426, 0.996573 )
+[node name="Setpoint" type="HBoxContainer" parent="Menu"]
+margin_right = 380.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Menu/Setpoint"]
+margin_top = 3.0
+margin_right = 49.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Setpoint:"
+
+[node name="SetpointVal" type="HSlider" parent="Menu/Setpoint"]
+margin_left = 53.0
+margin_right = 343.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+min_value = 30.0
+max_value = 210.0
+step = 5.0
+value = 120.0
+tick_count = 5
+ticks_on_borders = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Value" type="HSlider" parent="Contraption/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 88.0994
-margin_top = 108.122
-margin_right = 314.099
-margin_bottom = 124.122
+[node name="RndSetpointBtn" type="Button" parent="Menu/Setpoint"]
+margin_left = 347.0
+margin_right = 380.0
+margin_bottom = 28.0
+text = "Rnd"
+
+[node name="HSeparator2" type="HSeparator" parent="Menu"]
+margin_top = 33.0
+margin_right = 380.0
+margin_bottom = 37.0
+
+[node name="PID" type="HBoxContainer" parent="Menu"]
+margin_top = 42.0
+margin_right = 380.0
+margin_bottom = 74.0
+size_flags_horizontal = 11
+
+[node name="Label" type="Label" parent="Menu/PID"]
+margin_top = 5.0
+margin_right = 17.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
-min_value = 30.0
-max_value = 170.0
-value = 100.0
-tick_count = 1
+text = "P:"
+
+[node name="PCheck" type="CheckBox" parent="Menu/PID"]
+margin_left = 21.0
+margin_right = 45.0
+margin_bottom = 32.0
+size_flags_horizontal = 11
+pressed = true
+
+[node name="PVal" type="SpinBox" parent="Menu/PID"]
+margin_left = 49.0
+margin_right = 118.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+max_value = 3.0
+step = 0.001
+value = 0.85
+
+[node name="VSeparator" type="VSeparator" parent="Menu/PID"]
+margin_left = 122.0
+margin_right = 126.0
+margin_bottom = 32.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label2" type="Label" parent="Menu/PID"]
+margin_left = 130.0
+margin_top = 5.0
+margin_right = 148.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+text = "I:"
+
+[node name="ICheck" type="CheckBox" parent="Menu/PID"]
+margin_left = 152.0
+margin_right = 176.0
+margin_bottom = 32.0
+size_flags_horizontal = 11
+pressed = true
+
+[node name="IVal" type="SpinBox" parent="Menu/PID"]
+margin_left = 180.0
+margin_right = 249.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+max_value = 3.0
+step = 0.001
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/PID"]
+margin_left = 253.0
+margin_right = 257.0
+margin_bottom = 32.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Menu/PID"]
+margin_left = 261.0
+margin_top = 5.0
+margin_right = 278.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+text = "D:"
+
+[node name="DCheck" type="CheckBox" parent="Menu/PID"]
+margin_left = 282.0
+margin_right = 306.0
+margin_bottom = 32.0
+size_flags_horizontal = 11
+pressed = true
+
+[node name="DVal" type="SpinBox" parent="Menu/PID"]
+margin_left = 310.0
+margin_right = 380.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+max_value = 3.0
+step = 0.001
+value = 0.39
+
+[node name="HSeparator3" type="HSeparator" parent="Menu"]
+margin_top = 79.0
+margin_right = 380.0
+margin_bottom = 83.0
+
+[node name="Buttons" type="HBoxContainer" parent="Menu"]
+margin_top = 88.0
+margin_right = 380.0
+margin_bottom = 116.0
+size_flags_horizontal = 3
+custom_constants/separation = 12
+
+[node name="ReloadBtn" type="Button" parent="Menu/Buttons"]
+margin_right = 184.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Reload sim"
+
+[node name="RndImpulseBtn" type="Button" parent="Menu/Buttons"]
+margin_left = 196.0
+margin_right = 380.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+text = "Random impulse"
+
+[node name="Contraption" type="Node2D" parent="."]
+position = Vector2( 200, 280 )
+script = ExtResource( 4 )
+P = 0.85
+I = 0.0
+D = 0.39
+eI = false
 
 [node name="Base" type="StaticBody2D" parent="Contraption"]
 collision_mask = 0
@@ -148,7 +302,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Contraption/Platform"]
+[node name="LeftEnd" type="CollisionShape2D" parent="Contraption/Platform"]
 position = Vector2( -115, -10 )
 shape = SubResource( 6 )
 disabled = true
@@ -156,7 +310,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Contraption/Platform"]
+[node name="RightEnd" type="CollisionShape2D" parent="Contraption/Platform"]
 position = Vector2( 115, -10 )
 shape = SubResource( 6 )
 disabled = true
@@ -167,21 +321,12 @@ __meta__ = {
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Contraption/Platform"]
 position = Vector2( 0, 10 )
 shape = SubResource( 6 )
+disabled = true
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="RayCast2D" type="RayCast2D" parent="Contraption/Platform"]
-position = Vector2( 110, -10 )
-rotation = 1.5708
-enabled = true
-cast_to = Vector2( 0, 220 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_lock_": true
-}
-polling_rate = 0.05
-max_error = 0.2
+[node name="RayCast2D" parent="Contraption/Platform" instance=ExtResource( 3 )]
 
 [node name="Servo" type="RigidBody2D" parent="Contraption"]
 position = Vector2( -80, 60 )
@@ -207,51 +352,65 @@ __meta__ = {
 
 [node name="WorldLimits" type="StaticBody2D" parent="."]
 physics_material_override = SubResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldLimits"]
-polygon = PoolVector2Array( -0.44751, 438.6, 391.309, 439.462, 393.607, -0.403778, 449.045, -1.90208, 446.746, 492.378, -45.3967, 497.034, -49.8917, -58.8378, 446.048, -61.8344, 449.045, -3.40039, 0, 0, 0, 0 )
+polygon = PoolVector2Array( -0.7071, 500.538, 400.305, 504.077, 401.589, -1.13046, 537.66, 0.520535, 528.321, 560.749, -53.2891, 554.449, -54.2948, -58.4489, 538.192, -58.563, 537.07, -3.56233, -1.66837, -1.28062 )
 
 [node name="Ball" parent="." instance=ExtResource( 1 )]
-position = Vector2( 251.484, 70.216 )
+position = Vector2( 232.432, 182.423 )
 
 [node name="Ball2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball7" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball8" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball9" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball10" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball11" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball12" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball13" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball14" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
 
 [node name="Ball15" parent="." instance=ExtResource( 1 )]
-position = Vector2( 306.737, 409.119 )
+position = Vector2( 352.482, 422.245 )
+
+[connection signal="value_changed" from="Menu/Setpoint/SetpointVal" to="Contraption" method="_on_SetpointVal_value_changed"]
+[connection signal="pressed" from="Menu/Setpoint/RndSetpointBtn" to="Contraption" method="_on_RndSetpointBtn_pressed"]
+[connection signal="toggled" from="Menu/PID/PCheck" to="Contraption" method="_on_PCheck_toggled"]
+[connection signal="value_changed" from="Menu/PID/PVal" to="Contraption" method="_on_PVal_value_changed"]
+[connection signal="toggled" from="Menu/PID/ICheck" to="Contraption" method="_on_ICheck_toggled"]
+[connection signal="value_changed" from="Menu/PID/IVal" to="Contraption" method="_on_IVal_value_changed"]
+[connection signal="toggled" from="Menu/PID/DCheck" to="Contraption" method="_on_DCheck_toggled"]
+[connection signal="value_changed" from="Menu/PID/DVal" to="Contraption" method="_on_DVal_value_changed"]
+[connection signal="pressed" from="Menu/Buttons/ReloadBtn" to="Contraption" method="_on_ReloadBtn_pressed"]
+[connection signal="pressed" from="Menu/Buttons/RndImpulseBtn" to="Contraption" method="_on_RndImpulseBtn_pressed"]
