@@ -13,6 +13,8 @@ export var eD := true
 
 export(float) var distance_setpoint = 120 setget set_setpoint
 
+export var randomImpulseOnArrival := false
+
 var error := 0.0
 var measurement := 0.0
 var last_measurement := 0.0
@@ -20,10 +22,13 @@ var integral_error := 0
 var ball_velocity := 0
 var deg_setpoint := 0
 
-var currentBall: Object = null
+var current_ball: Object = null
+
+var elapsed_time := 0.00
+var passed_setpoint := false
 
 func get_measurement(delta):
-	if ultrasonic.result < 1000:
+	if ultrasonic.get_collider() != null:
 		last_measurement = measurement
 		measurement = ultrasonic.result
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
@@ -31,10 +36,29 @@ func get_measurement(delta):
 		deg_setpoint = (error*P*int(eP)) + (integral_error*I*int(eI)) + (ball_velocity*(-D)*int(eD))
 		integral_error += error
 
+func _process(delta):
+	if is_inside_tree():
+		get_parent().get_node("Menu/HBoxContainer/Error").text = str(stepify(error, 0.01))
+
 func _physics_process(delta):
-	currentBall = ultrasonic.get_collider()
+	current_ball = ultrasonic.get_collider()
 	get_measurement(delta)
 	servo.rotate_to(deg_setpoint)
+	
+	if randomImpulseOnArrival:
+		elapsed_time += delta
+		if abs(error) < 0.6 and passed_setpoint == false:
+			passed_setpoint = true
+			elapsed_time = 0
+		
+		if passed_setpoint and elapsed_time > 0.5:
+			if abs(error) < 1:
+				randomBallImpulse()
+				elapsed_time = 0
+				passed_setpoint = false
+			else:
+				elapsed_time = 0
+				passed_setpoint = false
 
 func _on_ReloadBtn_pressed():
 	get_tree().change_scene("res://World.tscn")
@@ -65,10 +89,10 @@ func _on_RndSetpointBtn_pressed():
 
 func set_setpoint(new_value):
 	distance_setpoint = new_value
-	get_parent().get_node("Menu/Setpoint/SetpointVal").value = distance_setpoint
+	get_parent().get_node("Menu/TabContainer/PID/Setpoint/SetpointVal").value = distance_setpoint
 
-func _on_RndImpulseBtn_pressed():
-	if currentBall is Ball:
+func randomBallImpulse():
+	if current_ball is Ball:
 		var angle_error = rand_range(-70, 70)
 		var angle = rad2deg(atan2(100, 100 - ultrasonic.result)) + angle_error
 		var magnitude = rand_range(-250, -300)
@@ -77,5 +101,10 @@ func _on_RndImpulseBtn_pressed():
 		impulse.x = cos(deg2rad(angle)) * magnitude
 		impulse.y = sin(deg2rad(angle)) * magnitude
 		
-		currentBall.apply_central_impulse(impulse)
+		current_ball.apply_central_impulse(impulse)
 
+func _on_RndImpulseBtn_pressed():
+	randomBallImpulse()
+
+func _on_ConstantImpulse_toggled(value):
+	randomImpulseOnArrival = value
