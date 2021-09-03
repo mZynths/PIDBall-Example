@@ -121,7 +121,7 @@ func _on_RndImpulseBtn_pressed():
 	doRandomBallImpulse()
 
 func _on_RandomImpulse_toggled(button_pressed):
-	randomImpulseOnArrival = true
+	randomImpulseOnArrival = button_pressed
 
 func _on_RandomSetpoint_toggled(button_pressed):
-	randomSetpointOnArrival = true
+	randomSetpointOnArrival = button_pressed
