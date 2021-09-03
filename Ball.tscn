@@ -5,6 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.4
+bounce = 0.16
 absorbent = true
 
 [sub_resource type="CircleShape2D" id=2]
