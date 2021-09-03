@@ -14,17 +14,20 @@ export var eD := true
 export(float) var distance_setpoint = 120 setget set_setpoint
 
 export var randomImpulseOnArrival := false
+export var randomSetpointOnArrival := false
+export var arrivalTime := 0.50
+
 
 var error := 0.0
 var measurement := 0.0
 var last_measurement := 0.0
-var integral_error := 0
-var ball_velocity := 0
-var deg_setpoint := 0
+var integral_error := 0.0
+var ball_velocity := 0.0
+var deg_setpoint := 0.0
 
 var current_ball: Object = null
 
-var elapsed_time := 0.00
+var elapsed_arrival_time := 0.00
 var passed_setpoint := false
 
 func get_measurement(delta):
@@ -33,8 +36,12 @@ func get_measurement(delta):
 		measurement = ultrasonic.result
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
 		error = measurement - (distance_setpoint-10)
-		deg_setpoint = (error*P*int(eP)) + (integral_error*I*int(eI)) + (ball_velocity*(-D)*int(eD))
-		integral_error += error
+		deg_setpoint = (error*P*int(eP)) + (integral_error*int(eI)) + (ball_velocity*(-D)*int(eD))
+		print(integral_error)
+		if abs(error) <= 3:
+			integral_error += error*I
+		else:
+			integral_error = 0
 
 func _process(delta):
 	if is_inside_tree():
@@ -45,20 +52,24 @@ func _physics_process(delta):
 	get_measurement(delta)
 	servo.rotate_to(deg_setpoint)
 	
-	if randomImpulseOnArrival:
-		elapsed_time += delta
-		if abs(error) < 0.6 and passed_setpoint == false:
-			passed_setpoint = true
-			elapsed_time = 0
-		
-		if passed_setpoint and elapsed_time > 0.5:
-			if abs(error) < 1:
-				randomBallImpulse()
-				elapsed_time = 0
-				passed_setpoint = false
-			else:
-				elapsed_time = 0
-				passed_setpoint = false
+	elapsed_arrival_time += delta
+	if abs(error) < 0.6 and passed_setpoint == false:
+		passed_setpoint = true
+		elapsed_arrival_time = 0
+	
+	if passed_setpoint and elapsed_arrival_time > arrivalTime:
+		if abs(error) < 1:
+			on_arrival()
+			elapsed_arrival_time = 0
+			passed_setpoint = false
+		else:
+			elapsed_arrival_time = 0
+			passed_setpoint = false
+
+func on_arrival():
+	if randomImpulseOnArrival: doRandomBallImpulse()
+	if randomSetpointOnArrival: randomize_setpoint()
+	
 
 func _on_ReloadBtn_pressed():
 	get_tree().change_scene("res://World.tscn")
@@ -85,17 +96,20 @@ func _on_DCheck_toggled(state):
 	eD = state
 
 func _on_RndSetpointBtn_pressed():
-	self.distance_setpoint = int(rand_range(30, 210)/5)*5
+	randomize_setpoint()
 
 func set_setpoint(new_value):
 	distance_setpoint = new_value
 	get_parent().get_node("Menu/TabContainer/PID/Setpoint/SetpointVal").value = distance_setpoint
 
-func randomBallImpulse():
+func randomize_setpoint():
+	self.distance_setpoint = int(rand_range(30, 210) / 5) * 5
+
+func doRandomBallImpulse():
 	if current_ball is Ball:
-		var angle_error = rand_range(-70, 70)
+		var angle_error = rand_range(-35, 35)
 		var angle = rad2deg(atan2(100, 100 - ultrasonic.result)) + angle_error
-		var magnitude = rand_range(-250, -300)
+		var magnitude = rand_range(-260, -350)
 		var impulse = Vector2()
 		
 		impulse.x = cos(deg2rad(angle)) * magnitude
@@ -104,7 +118,10 @@ func randomBallImpulse():
 		current_ball.apply_central_impulse(impulse)
 
 func _on_RndImpulseBtn_pressed():
-	randomBallImpulse()
+	doRandomBallImpulse()
 
-func _on_ConstantImpulse_toggled(value):
-	randomImpulseOnArrival = value
+func _on_RandomImpulse_toggled(button_pressed):
+	randomImpulseOnArrival = true
+
+func _on_RandomSetpoint_toggled(button_pressed):
+	randomSetpointOnArrival = true
