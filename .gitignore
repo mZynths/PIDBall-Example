@@ -11,3 +11,4 @@ data_*/
 # Workflow-specific ignores
 .vscode
 html/
+desktop/
