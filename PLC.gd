@@ -3,20 +3,19 @@ extends Node2D
 onready var ultrasonic: DistanceMeter2D = $Platform/RayCast2D
 onready var servo = $Servo
 
-export var P := 0.55
-export var I := 0.002
-export var D := 0.1
+var P := 0.75
+var I := 0.009
+var D := 0.375
 
-export var eP := true
-export var eI := true
-export var eD := true
+var eP := true
+var eI := true
+var eD := true
 
 export(float) var distance_setpoint = 120 setget set_setpoint
 
 export var randomImpulseOnArrival := false
 export var randomSetpointOnArrival := false
 export var arrivalTime := 0.50
-
 
 var error := 0.0
 var measurement := 0.0
@@ -36,10 +35,10 @@ func get_measurement(delta):
 		measurement = ultrasonic.result
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
 		error = measurement - (distance_setpoint-10)
-		deg_setpoint = (error*P*int(eP)) + (integral_error*int(eI)) + (ball_velocity*(-D)*int(eD))
-		print(integral_error)
-		if abs(error) <= 3:
-			integral_error += error*I
+		deg_setpoint = (error*P*int(eP)) + (integral_error) + (ball_velocity*(-D)*int(eD))
+		
+		if abs(error) < 4:
+			integral_error += error*I*int(eI)
 		else:
 			integral_error = 0
 
@@ -109,7 +108,7 @@ func doRandomBallImpulse():
 	if current_ball is Ball:
 		var angle_error = rand_range(-35, 35)
 		var angle = rad2deg(atan2(100, 100 - ultrasonic.result)) + angle_error
-		var magnitude = rand_range(-260, -350)
+		var magnitude = -rand_range(40, 100)
 		var impulse = Vector2()
 		
 		impulse.x = cos(deg2rad(angle)) * magnitude
