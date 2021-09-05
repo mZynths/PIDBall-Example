@@ -8,14 +8,16 @@
 [ext_resource path="res://BalooDa2-Medium.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Menu.gd" type="Script" id=7]
 
-[sub_resource type="DynamicFont" id=1]
-size = 11
+[sub_resource type="DynamicFont" id=11]
+size = 12
 use_mipmaps = true
 use_filter = true
+extra_spacing_top = -4
+extra_spacing_bottom = -4
 font_data = ExtResource( 6 )
 
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
+[sub_resource type="Theme" id=12]
+default_font = SubResource( 11 )
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 5.0
@@ -55,8 +57,8 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 390.0
-margin_bottom = 140.0
-theme = SubResource( 2 )
+margin_bottom = 153.0
+theme = SubResource( 12 )
 custom_constants/separation = 5
 script = ExtResource( 7 )
 __meta__ = {
@@ -65,58 +67,88 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="Menu"]
 margin_right = 380.0
-margin_bottom = 105.0
+margin_bottom = 124.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
+drag_to_rearrange_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Functions" type="GridContainer" parent="Menu/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 38.0
-margin_right = -4.0
-margin_bottom = -4.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/vseparation = 9
-custom_constants/hseparation = 9
-columns = 2
-
-[node name="ReloadBtn" type="Button" parent="Menu/TabContainer/Functions"]
-margin_right = 181.0
-margin_bottom = 26.0
-size_flags_horizontal = 3
-text = "Reload simulation"
-
-[node name="RndImpulseBtn" type="Button" parent="Menu/TabContainer/Functions"]
-margin_left = 190.0
-margin_right = 371.0
-margin_bottom = 26.0
-size_flags_horizontal = 3
-text = "Random impulse"
-
-[node name="RandomImpulse" type="CheckBox" parent="Menu/TabContainer/Functions"]
-margin_top = 35.0
-margin_right = 181.0
-margin_bottom = 63.0
-text = "Random impulse on arrival"
-
-[node name="RandomSetpoint" type="CheckBox" parent="Menu/TabContainer/Functions"]
-margin_left = 190.0
-margin_top = 35.0
-margin_right = 371.0
-margin_bottom = 63.0
-text = "Random setpoint on arrival"
-
-[node name="PID" type="VBoxContainer" parent="Menu/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 38.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 2
+
+[node name="ReloadBtn" type="Button" parent="Menu/TabContainer/Functions"]
+margin_right = 183.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Reload simulation"
+
+[node name="RndImpulseBtn" type="Button" parent="Menu/TabContainer/Functions"]
+margin_left = 188.0
+margin_right = 371.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Random impulse"
+
+[node name="RandomImpulse" type="CheckBox" parent="Menu/TabContainer/Functions"]
+margin_top = 25.0
+margin_right = 183.0
+margin_bottom = 49.0
+text = "Random impulse on arrival"
+
+[node name="RandomSetpoint" type="CheckBox" parent="Menu/TabContainer/Functions"]
+margin_left = 188.0
+margin_top = 25.0
+margin_right = 371.0
+margin_bottom = 49.0
+text = "Random setpoint on arrival"
+
+[node name="SaveSystem" type="Button" parent="Menu/TabContainer/Functions"]
+margin_top = 54.0
+margin_right = 183.0
+margin_bottom = 74.0
+disabled = true
+text = "Save system"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/TabContainer/Functions"]
+margin_left = 188.0
+margin_top = 54.0
+margin_right = 371.0
+margin_bottom = 74.0
+
+[node name="OptionButton" type="OptionButton" parent="Menu/TabContainer/Functions/HBoxContainer"]
+margin_right = 133.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+disabled = true
+text = "Load system"
+clip_text = true
+align = 1
+
+[node name="DeleteSystem" type="Button" parent="Menu/TabContainer/Functions/HBoxContainer"]
+margin_left = 137.0
+margin_right = 183.0
+margin_bottom = 20.0
+disabled = true
+text = "Delete"
+
+[node name="PID" type="VBoxContainer" parent="Menu/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 size_flags_horizontal = 3
@@ -124,7 +156,7 @@ size_flags_vertical = 3
 
 [node name="Setpoint" type="HBoxContainer" parent="Menu/TabContainer/PID"]
 margin_right = 372.0
-margin_bottom = 26.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -132,15 +164,15 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Menu/TabContainer/PID/Setpoint"]
 margin_top = 3.0
-margin_right = 43.0
-margin_bottom = 23.0
+margin_right = 49.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Setpoint:"
 
 [node name="SetpointVal" type="HSlider" parent="Menu/TabContainer/PID/Setpoint"]
-margin_left = 47.0
-margin_right = 337.0
-margin_bottom = 26.0
+margin_left = 53.0
+margin_right = 335.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
@@ -155,20 +187,20 @@ __meta__ = {
 }
 
 [node name="RndSetpointBtn" type="Button" parent="Menu/TabContainer/PID/Setpoint"]
-margin_left = 341.0
+margin_left = 339.0
 margin_right = 372.0
-margin_bottom = 26.0
+margin_bottom = 20.0
 text = "Rnd"
 
 [node name="HSeparator" type="HSeparator" parent="Menu/TabContainer/PID"]
-margin_top = 30.0
+margin_top = 24.0
 margin_right = 372.0
-margin_bottom = 34.0
+margin_bottom = 28.0
 
 [node name="PID" type="HBoxContainer" parent="Menu/TabContainer/PID"]
-margin_top = 38.0
+margin_top = 32.0
 margin_right = 372.0
-margin_bottom = 68.0
+margin_bottom = 56.0
 size_flags_horizontal = 11
 __meta__ = {
 "_edit_use_anchors_": false
@@ -177,31 +209,31 @@ __meta__ = {
 [node name="Label" type="Label" parent="Menu/TabContainer/PID/PID"]
 margin_top = 5.0
 margin_right = 16.0
-margin_bottom = 25.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "P:"
 
 [node name="PCheck" type="CheckBox" parent="Menu/TabContainer/PID/PID"]
 margin_left = 20.0
 margin_right = 44.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 11
 pressed = true
 
 [node name="PVal" type="SpinBox" parent="Menu/TabContainer/PID/PID"]
 margin_left = 48.0
 margin_right = 115.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 max_value = 3.0
 step = 0.001
-value = 0.85
+value = 0.75
 
 [node name="VSeparator" type="VSeparator" parent="Menu/TabContainer/PID/PID"]
 margin_left = 119.0
 margin_right = 123.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -210,31 +242,31 @@ __meta__ = {
 margin_left = 127.0
 margin_top = 5.0
 margin_right = 144.0
-margin_bottom = 25.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "I:"
 
 [node name="ICheck" type="CheckBox" parent="Menu/TabContainer/PID/PID"]
 margin_left = 148.0
 margin_right = 172.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 11
 pressed = true
 
 [node name="IVal" type="SpinBox" parent="Menu/TabContainer/PID/PID"]
 margin_left = 176.0
 margin_right = 243.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 max_value = 2.0
-step = 0.001
+step = 0.009
 value = 0.005
 
 [node name="VSeparator2" type="VSeparator" parent="Menu/TabContainer/PID/PID"]
 margin_left = 247.0
 margin_right = 251.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -243,79 +275,100 @@ __meta__ = {
 margin_left = 255.0
 margin_top = 5.0
 margin_right = 272.0
-margin_bottom = 25.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "D:"
 
 [node name="DCheck" type="CheckBox" parent="Menu/TabContainer/PID/PID"]
 margin_left = 276.0
 margin_right = 300.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 11
 pressed = true
 
 [node name="DVal" type="SpinBox" parent="Menu/TabContainer/PID/PID"]
 margin_left = 304.0
 margin_right = 372.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 max_value = 3.0
 step = 0.001
-value = 0.39
+value = 0.375
 
 [node name="System" type="VBoxContainer" parent="Menu/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 38.0
+margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Gravity" type="HBoxContainer" parent="Menu/TabContainer/System"]
-margin_right = 381.0
-margin_bottom = 30.0
+margin_right = 372.0
+margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="Menu/TabContainer/System/Gravity"]
 margin_top = 5.0
-margin_right = 188.0
-margin_bottom = 25.0
+margin_right = 184.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Gravity: "
 
 [node name="GravityVal" type="SpinBox" parent="Menu/TabContainer/System/Gravity"]
-margin_left = 192.0
-margin_right = 381.0
-margin_bottom = 30.0
+margin_left = 188.0
+margin_right = 372.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 70.0
 step = 0.1
-value = 25.0
+value = 30.0
+
+[node name="Gravity2" type="HBoxContainer" parent="Menu/TabContainer/System"]
+margin_top = 28.0
+margin_right = 372.0
+margin_bottom = 52.0
+
+[node name="Label" type="Label" parent="Menu/TabContainer/System/Gravity2"]
+margin_top = 5.0
+margin_right = 184.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Friction Coeff:"
+
+[node name="FrictionVal" type="SpinBox" parent="Menu/TabContainer/System/Gravity2"]
+margin_left = 188.0
+margin_right = 372.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.3
 
 [node name="HSeparator" type="HSeparator" parent="Menu/TabContainer/System"]
-margin_top = 34.0
-margin_right = 381.0
-margin_bottom = 38.0
+margin_top = 56.0
+margin_right = 372.0
+margin_bottom = 60.0
 
 [node name="MotorSpeed" type="HBoxContainer" parent="Menu/TabContainer/System"]
-margin_top = 84.0
-margin_right = 381.0
-margin_bottom = 114.0
+margin_top = 64.0
+margin_right = 372.0
+margin_bottom = 88.0
 
 [node name="Label" type="Label" parent="Menu/TabContainer/System/MotorSpeed"]
 margin_top = 5.0
-margin_right = 188.0
-margin_bottom = 25.0
+margin_right = 184.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Motor speed:"
 
 [node name="ServoSpeedVal" type="SpinBox" parent="Menu/TabContainer/System/MotorSpeed"]
-margin_left = 192.0
-margin_right = 381.0
-margin_bottom = 30.0
+margin_left = 188.0
+margin_right = 372.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 60.0
 step = 0.1
@@ -326,7 +379,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 38.0
+margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 size_flags_horizontal = 3
@@ -334,45 +387,45 @@ size_flags_vertical = 3
 
 [node name="PollingRate" type="HBoxContainer" parent="Menu/TabContainer/Sensor"]
 margin_right = 372.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="Menu/TabContainer/Sensor/PollingRate"]
 margin_top = 5.0
 margin_right = 184.0
-margin_bottom = 25.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Polling rate:"
 
 [node name="PollingRateVal" type="SpinBox" parent="Menu/TabContainer/Sensor/PollingRate"]
 margin_left = 188.0
 margin_right = 372.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 1000.0
-value = 1.0
+value = 25.0
 suffix = " ms"
 
 [node name="HSeparator" type="HSeparator" parent="Menu/TabContainer/Sensor"]
-margin_top = 34.0
+margin_top = 28.0
 margin_right = 372.0
-margin_bottom = 38.0
+margin_bottom = 32.0
 
 [node name="MaxError" type="HBoxContainer" parent="Menu/TabContainer/Sensor"]
-margin_top = 42.0
+margin_top = 36.0
 margin_right = 372.0
-margin_bottom = 72.0
+margin_bottom = 60.0
 
 [node name="Label" type="Label" parent="Menu/TabContainer/Sensor/MaxError"]
 margin_top = 5.0
 margin_right = 184.0
-margin_bottom = 25.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Max measurement error:"
 
 [node name="MaxErrorVal" type="SpinBox" parent="Menu/TabContainer/Sensor/MaxError"]
 margin_left = 188.0
 margin_right = 372.0
-margin_bottom = 30.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 240.0
 step = 0.1
@@ -383,19 +436,19 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 38.0
+margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
-margin_top = 110.0
+margin_top = 129.0
 margin_right = 380.0
-margin_bottom = 130.0
+margin_bottom = 143.0
 size_flags_horizontal = 3
 
 [node name="Title" type="Label" parent="Menu/HBoxContainer"]
 margin_right = 188.0
-margin_bottom = 20.0
+margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Error: "
 align = 2
@@ -404,7 +457,7 @@ valign = 1
 [node name="Error" type="Label" parent="Menu/HBoxContainer"]
 margin_left = 192.0
 margin_right = 380.0
-margin_bottom = 20.0
+margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "50.000"
 valign = 1
@@ -412,9 +465,6 @@ valign = 1
 [node name="Contraption" type="Node2D" parent="."]
 position = Vector2( 200, 300 )
 script = ExtResource( 4 )
-P = 0.85
-I = 0.005
-D = 0.39
 
 [node name="Base" type="StaticBody2D" parent="Contraption"]
 collision_mask = 0
@@ -447,6 +497,7 @@ __meta__ = {
 
 [node name="Arm" type="RigidBody2D" parent="Contraption"]
 position = Vector2( -105, 0 )
+collision_layer = 0
 collision_mask = 0
 __meta__ = {
 "_edit_lock_": true
@@ -517,7 +568,8 @@ __meta__ = {
 position = Vector2( 120, -10 )
 rotation = 1.5708
 cast_to = Vector2( 0, 240 )
-polling_rate = 1
+polling_rate = 25
+max_error = 0.0
 
 [node name="Servo" type="RigidBody2D" parent="Contraption"]
 position = Vector2( -80, 60 )
@@ -548,7 +600,7 @@ __meta__ = {
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldLimits"]
-polygon = PoolVector2Array( -1.98832, 488.706, 400.579, 504.922, 403.502, 0.230682, 466.434, -0.5019, 466.939, 556.112, -53.2891, 554.449, -54.2948, -58.4489, 465.864, -58.9653, 466.819, -1.19894, -1.66837, -1.28062 )
+polygon = PoolVector2Array( -0.409103, 489.236, 400.212, 500.376, 400.311, -0.0748291, 466.434, -0.5019, 466.939, 556.112, -53.2891, 554.449, -54.2948, -58.4489, 465.864, -58.9653, 465.862, -0.764544, -1.66837, -1.28062 )
 
 [node name="Balls" type="Node" parent="."]
 
@@ -610,6 +662,7 @@ position = Vector2( 352.482, 422.245 )
 [connection signal="toggled" from="Menu/TabContainer/PID/PID/DCheck" to="Contraption" method="_on_DCheck_toggled"]
 [connection signal="value_changed" from="Menu/TabContainer/PID/PID/DVal" to="Contraption" method="_on_DVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/System/Gravity/GravityVal" to="Menu" method="_on_GravityVal_value_changed"]
+[connection signal="value_changed" from="Menu/TabContainer/System/Gravity2/FrictionVal" to="Menu" method="_on_FrictionVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/System/MotorSpeed/ServoSpeedVal" to="Contraption/Servo" method="_on_ServoSpeedVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/Sensor/PollingRate/PollingRateVal" to="Contraption/Platform/RayCast2D" method="_on_PollingRateVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/Sensor/MaxError/MaxErrorVal" to="Contraption/Platform/RayCast2D" method="_on_MaxErrorVal_value_changed"]
