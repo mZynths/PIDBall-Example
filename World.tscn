@@ -8,7 +8,7 @@
 [ext_resource path="res://BalooDa2-Medium.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Menu.gd" type="Script" id=7]
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=1]
 size = 12
 use_mipmaps = true
 use_filter = true
@@ -16,8 +16,8 @@ extra_spacing_top = -4
 extra_spacing_bottom = -4
 font_data = ExtResource( 6 )
 
-[sub_resource type="Theme" id=12]
-default_font = SubResource( 11 )
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 5.0
@@ -58,7 +58,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = 390.0
 margin_bottom = 153.0
-theme = SubResource( 12 )
+theme = SubResource( 2 )
 custom_constants/separation = 5
 script = ExtResource( 7 )
 __meta__ = {
@@ -67,7 +67,7 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="Menu"]
 margin_right = 380.0
-margin_bottom = 124.0
+margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 drag_to_rearrange_enabled = true
@@ -261,7 +261,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 max_value = 2.0
 step = 0.001
-value = 0.009
+value = 0.006
 
 [node name="VSeparator2" type="VSeparator" parent="Menu/TabContainer/PID/PID"]
 margin_left = 247.0
@@ -295,6 +295,52 @@ size_flags_stretch_ratio = 4.0
 max_value = 3.0
 step = 0.001
 value = 0.375
+
+[node name="HSeparator2" type="HSeparator" parent="Menu/TabContainer/PID"]
+margin_top = 60.0
+margin_right = 372.0
+margin_bottom = 64.0
+
+[node name="AWsettings" type="HBoxContainer" parent="Menu/TabContainer/PID"]
+margin_top = 68.0
+margin_right = 372.0
+margin_bottom = 92.0
+
+[node name="AWtitle" type="Label" parent="Menu/TabContainer/PID/AWsettings"]
+margin_top = 5.0
+margin_right = 71.0
+margin_bottom = 19.0
+text = "Anti-Windup:"
+
+[node name="AWCheck" type="CheckBox" parent="Menu/TabContainer/PID/AWsettings"]
+margin_left = 75.0
+margin_right = 99.0
+margin_bottom = 24.0
+pressed = true
+
+[node name="VSeparator" type="VSeparator" parent="Menu/TabContainer/PID/AWsettings"]
+margin_left = 103.0
+margin_right = 107.0
+margin_bottom = 24.0
+
+[node name="AWLabel" type="Label" parent="Menu/TabContainer/PID/AWsettings"]
+margin_left = 111.0
+margin_top = 5.0
+margin_right = 239.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Max. integral error:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AWVal" type="SpinBox" parent="Menu/TabContainer/PID/AWsettings"]
+margin_left = 243.0
+margin_right = 372.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+step = 0.001
+value = 0.6
 
 [node name="System" type="VBoxContainer" parent="Menu/TabContainer"]
 visible = false
@@ -441,9 +487,9 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
-margin_top = 129.0
+margin_top = 133.0
 margin_right = 380.0
-margin_bottom = 143.0
+margin_bottom = 147.0
 size_flags_horizontal = 3
 
 [node name="Title" type="Label" parent="Menu/HBoxContainer"]
@@ -661,6 +707,8 @@ position = Vector2( 352.482, 422.245 )
 [connection signal="value_changed" from="Menu/TabContainer/PID/PID/IVal" to="Contraption" method="_on_IVal_value_changed"]
 [connection signal="toggled" from="Menu/TabContainer/PID/PID/DCheck" to="Contraption" method="_on_DCheck_toggled"]
 [connection signal="value_changed" from="Menu/TabContainer/PID/PID/DVal" to="Contraption" method="_on_DVal_value_changed"]
+[connection signal="toggled" from="Menu/TabContainer/PID/AWsettings/AWCheck" to="Contraption" method="_on_AWCheck_toggled"]
+[connection signal="value_changed" from="Menu/TabContainer/PID/AWsettings/AWVal" to="Contraption" method="_on_AWVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/System/Gravity/GravityVal" to="Menu" method="_on_GravityVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/System/Gravity2/FrictionVal" to="Menu" method="_on_FrictionVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/System/MotorSpeed/ServoSpeedVal" to="Contraption/Servo" method="_on_ServoSpeedVal_value_changed"]
