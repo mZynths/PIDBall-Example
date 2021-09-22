@@ -4,8 +4,11 @@ onready var ultrasonic: DistanceMeter2D = $Platform/RayCast2D
 onready var servo = $Servo
 
 var P := 0.75
-var I := 0.009
+var I := 0.006
 var D := 0.375
+
+var maxIntegralError = 0.6
+var eAntiWindup := true
 
 var eP := true
 var eI := true
@@ -16,6 +19,8 @@ export(float) var distance_setpoint = 120 setget set_setpoint
 export var randomImpulseOnArrival := false
 export var randomSetpointOnArrival := false
 export var arrivalTime := 0.50
+
+var stableStateError = 0.1
 
 var error := 0.0
 var measurement := 0.0
@@ -36,11 +41,9 @@ func get_measurement(delta):
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
 		error = measurement - (distance_setpoint-10)
 		deg_setpoint = (error*P*int(eP)) + (integral_error) + (ball_velocity*(-D)*int(eD))
-		
-		if abs(error) < 4:
-			integral_error += error*I*int(eI)
-		else:
-			integral_error = 0
+		integral_error = (integral_error + error*I) * int(eI)
+		if eAntiWindup:
+			integral_error = clamp(integral_error, -maxIntegralError, maxIntegralError)
 
 func _process(delta):
 	if is_inside_tree():
@@ -52,7 +55,7 @@ func _physics_process(delta):
 	servo.rotate_to(deg_setpoint)
 	
 	elapsed_arrival_time += delta
-	if abs(error) < 0.6 and passed_setpoint == false:
+	if abs(error) < stableStateError and passed_setpoint == false:
 		passed_setpoint = true
 		elapsed_arrival_time = 0
 	
@@ -85,6 +88,9 @@ func _on_IVal_value_changed(value):
 func _on_DVal_value_changed(value):
 	D = value
 
+func _on_AWVal_value_changed(value):
+	maxIntegralError = value
+
 func _on_PCheck_toggled(state):
 	eP = state
 
@@ -93,6 +99,9 @@ func _on_ICheck_toggled(state):
 
 func _on_DCheck_toggled(state):
 	eD = state
+
+func _on_AWCheck_toggled(state):
+	eAntiWindup = state
 
 func _on_RndSetpointBtn_pressed():
 	randomize_setpoint()
@@ -124,3 +133,6 @@ func _on_RandomImpulse_toggled(button_pressed):
 
 func _on_RandomSetpoint_toggled(button_pressed):
 	randomSetpointOnArrival = button_pressed
+
+
+
