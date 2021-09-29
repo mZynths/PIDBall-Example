@@ -1,6 +1,8 @@
 extends RayCast2D
 class_name DistanceMeter2D
 
+signal measured
+
 export var polling_rate := 1 # in ms
 var elapsed_time = 0
 export var max_error := 0.0
@@ -20,10 +22,9 @@ func _physics_process(delta):
 			result += rand_range(-max_error, max_error)
 			elapsed_time = 0
 			last_result = result
+			emit_signal("measured")
 	else:
 		pass
-	
-#	print(result)
 
 func _on_PollingRateVal_value_changed(value):
 	polling_rate = value
@@ -31,7 +32,6 @@ func _on_PollingRateVal_value_changed(value):
 
 func _on_MaxErrorVal_value_changed(value):
 	max_error = value
-
 
 func _on_SmoothVal_value_changed(value):
 	smoothing = value
