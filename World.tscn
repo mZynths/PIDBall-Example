@@ -67,7 +67,7 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="Menu"]
 margin_right = 380.0
-margin_bottom = 128.0
+margin_bottom = 104.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 drag_to_rearrange_enabled = true
@@ -76,7 +76,6 @@ __meta__ = {
 }
 
 [node name="Functions" type="GridContainer" parent="Menu/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -116,6 +115,7 @@ margin_bottom = 49.0
 text = "Random setpoint on arrival"
 
 [node name="SaveSystem" type="Button" parent="Menu/TabContainer/Functions"]
+visible = false
 margin_top = 54.0
 margin_right = 183.0
 margin_bottom = 74.0
@@ -123,6 +123,7 @@ disabled = true
 text = "Save system"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Menu/TabContainer/Functions"]
+visible = false
 margin_left = 188.0
 margin_top = 54.0
 margin_right = 371.0
@@ -145,6 +146,7 @@ disabled = true
 text = "Delete"
 
 [node name="PID" type="VBoxContainer" parent="Menu/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -477,22 +479,126 @@ max_value = 240.0
 step = 0.1
 suffix = " units"
 
-[node name="Graphs" type="Container" parent="Menu/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
-margin_top = 133.0
-margin_right = 380.0
-margin_bottom = 147.0
+[node name="Values" type="HBoxContainer" parent="Menu/TabContainer"]
+margin_left = 5.0
+margin_top = 31.0
+margin_right = 375.0
 size_flags_horizontal = 3
 
-[node name="Title" type="Label" parent="Menu/HBoxContainer"]
+[node name="TabError" type="HBoxContainer" parent="Menu/TabContainer/Values"]
+margin_right = 262.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.76
+
+[node name="Title" type="Label" parent="Menu/TabContainer/Values/TabError"]
+margin_top = 27.0
+margin_right = 129.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "Error: "
+align = 2
+valign = 1
+
+[node name="Value" type="Label" parent="Menu/TabContainer/Values/TabError"]
+margin_left = 133.0
+margin_top = 27.0
+margin_right = 262.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+text = "50.000"
+valign = 1
+
+[node name="VSeparator" type="VSeparator" parent="Menu/TabContainer/Values"]
+margin_left = 266.0
+margin_right = 270.0
+margin_bottom = 68.0
+
+[node name="Contributions" type="VBoxContainer" parent="Menu/TabContainer/Values"]
+margin_left = 274.0
+margin_right = 370.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="P" type="HBoxContainer" parent="Menu/TabContainer/Values/Contributions"]
+margin_right = 96.0
+margin_bottom = 14.0
+
+[node name="Title" type="Label" parent="Menu/TabContainer/Values/Contributions/P"]
+margin_right = 46.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "P: "
+
+[node name="Val" type="Label" parent="Menu/TabContainer/Values/Contributions/P"]
+margin_left = 50.0
+margin_right = 96.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "12.00"
+
+[node name="I" type="HBoxContainer" parent="Menu/TabContainer/Values/Contributions"]
+margin_top = 18.0
+margin_right = 96.0
+margin_bottom = 32.0
+
+[node name="Title" type="Label" parent="Menu/TabContainer/Values/Contributions/I"]
+margin_right = 46.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "I : "
+
+[node name="Val" type="Label" parent="Menu/TabContainer/Values/Contributions/I"]
+margin_left = 50.0
+margin_right = 96.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "12.00"
+
+[node name="D" type="HBoxContainer" parent="Menu/TabContainer/Values/Contributions"]
+margin_top = 36.0
+margin_right = 96.0
+margin_bottom = 50.0
+
+[node name="Title" type="Label" parent="Menu/TabContainer/Values/Contributions/D"]
+margin_right = 46.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "D: "
+
+[node name="Val" type="Label" parent="Menu/TabContainer/Values/Contributions/D"]
+margin_left = 50.0
+margin_right = 96.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "12.00"
+
+[node name="Total" type="HBoxContainer" parent="Menu/TabContainer/Values/Contributions"]
+margin_top = 54.0
+margin_right = 96.0
+margin_bottom = 68.0
+
+[node name="Title" type="Label" parent="Menu/TabContainer/Values/Contributions/Total"]
+margin_right = 46.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Total: "
+
+[node name="Val" type="Label" parent="Menu/TabContainer/Values/Contributions/Total"]
+margin_left = 50.0
+margin_right = 96.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "36.00"
+
+[node name="Error" type="HBoxContainer" parent="Menu"]
+margin_top = 109.0
+margin_right = 380.0
+margin_bottom = 123.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.76
+
+[node name="Title" type="Label" parent="Menu/Error"]
 margin_right = 188.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
@@ -500,7 +606,7 @@ text = "Error: "
 align = 2
 valign = 1
 
-[node name="Error" type="Label" parent="Menu/HBoxContainer"]
+[node name="Value" type="Label" parent="Menu/Error"]
 margin_left = 192.0
 margin_right = 380.0
 margin_bottom = 14.0
@@ -651,7 +757,7 @@ polygon = PoolVector2Array( -0.409103, 489.236, 400.212, 500.376, 400.311, -0.07
 [node name="Balls" type="Node" parent="."]
 
 [node name="Ball" parent="Balls" instance=ExtResource( 1 )]
-position = Vector2( 253.908, 213.835 )
+position = Vector2( 246.13, 230.806 )
 
 [node name="Ball2" parent="Balls" instance=ExtResource( 1 )]
 position = Vector2( 352.482, 422.245 )
@@ -695,6 +801,7 @@ position = Vector2( 352.482, 422.245 )
 [node name="Ball15" parent="Balls" instance=ExtResource( 1 )]
 position = Vector2( 352.482, 422.245 )
 
+[connection signal="tab_changed" from="Menu/TabContainer" to="Menu" method="_on_TabContainer_tab_changed"]
 [connection signal="pressed" from="Menu/TabContainer/Functions/ReloadBtn" to="Contraption" method="_on_ReloadBtn_pressed"]
 [connection signal="pressed" from="Menu/TabContainer/Functions/RndImpulseBtn" to="Contraption" method="_on_RndImpulseBtn_pressed"]
 [connection signal="toggled" from="Menu/TabContainer/Functions/RandomImpulse" to="Contraption" method="_on_RandomImpulse_toggled"]
@@ -714,3 +821,4 @@ position = Vector2( 352.482, 422.245 )
 [connection signal="value_changed" from="Menu/TabContainer/System/MotorSpeed/ServoSpeedVal" to="Contraption/Servo" method="_on_ServoSpeedVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/Sensor/PollingRate/PollingRateVal" to="Contraption/Platform/RayCast2D" method="_on_PollingRateVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/Sensor/MaxError/MaxErrorVal" to="Contraption/Platform/RayCast2D" method="_on_MaxErrorVal_value_changed"]
+[connection signal="measured" from="Contraption/Platform/RayCast2D" to="Contraption" method="_on_RayCast2D_measured"]

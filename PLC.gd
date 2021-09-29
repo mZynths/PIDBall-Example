@@ -7,6 +7,11 @@ var P := 0.75
 var I := 0.006
 var D := 0.375
 
+var PPart := 0.00
+var IPart := 0.00
+var DPart := 0.00
+var totalContribution := 0.00
+
 var maxIntegralError = 0.6
 var eAntiWindup := true
 
@@ -40,14 +45,16 @@ func get_measurement(delta):
 		measurement = ultrasonic.result
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
 		error = measurement - (distance_setpoint-10)
-		deg_setpoint = (error*P*int(eP)) + (integral_error) + (ball_velocity*(-D)*int(eD))
+		
+		PPart = error*P*int(eP)
+		IPart = integral_error
+		DPart = ball_velocity*(-D) * int(eD)
+		totalContribution = PPart + IPart + DPart
+		
+		deg_setpoint = totalContribution
 		integral_error = (integral_error + error*I) * int(eI)
 		if eAntiWindup:
 			integral_error = clamp(integral_error, -maxIntegralError, maxIntegralError)
-
-func _process(delta):
-	if is_inside_tree():
-		get_parent().get_node("Menu/HBoxContainer/Error").text = str(stepify(error, 0.01))
 
 func _physics_process(delta):
 	current_ball = ultrasonic.get_collider()
@@ -134,5 +141,11 @@ func _on_RandomImpulse_toggled(button_pressed):
 func _on_RandomSetpoint_toggled(button_pressed):
 	randomSetpointOnArrival = button_pressed
 
-
-
+func _on_RayCast2D_measured():
+	if is_inside_tree():
+		get_parent().get_node("Menu/Error/Value").text = str(stepify(error, 0.01))
+		get_parent().get_node("Menu/TabContainer/Values/TabError/Value").text = str(stepify(error, 0.01))
+		get_parent().get_node("Menu/TabContainer/Values/Contributions/P/Val").text = str(stepify(PPart, 0.01))
+		get_parent().get_node("Menu/TabContainer/Values/Contributions/I/Val").text = str(stepify(IPart, 0.01))
+		get_parent().get_node("Menu/TabContainer/Values/Contributions/D/Val").text = str(stepify(DPart, 0.01))
+		get_parent().get_node("Menu/TabContainer/Values/Contributions/Total/Val").text = str(stepify(totalContribution, 0.01))
