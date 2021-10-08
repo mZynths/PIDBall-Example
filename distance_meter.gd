@@ -20,9 +20,9 @@ func _physics_process(delta):
 			var collision_point = get_collision_point()
 			result = origin.distance_to(collision_point)
 			result += rand_range(-max_error, max_error)
-			elapsed_time = 0
+			emit_signal("measured", result, elapsed_time)
 			last_result = result
-			emit_signal("measured")
+			elapsed_time = 0
 	else:
 		pass
 
