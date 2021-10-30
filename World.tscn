@@ -67,7 +67,7 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="Menu"]
 margin_right = 380.0
-margin_bottom = 85.0
+margin_bottom = 132.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 drag_to_rearrange_enabled = true
@@ -76,6 +76,7 @@ __meta__ = {
 }
 
 [node name="Functions" type="GridContainer" parent="Menu/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -113,6 +114,13 @@ margin_top = 25.0
 margin_right = 371.0
 margin_bottom = 49.0
 text = "Random setpoint on arrival"
+
+[node name="SolidLimits" type="CheckBox" parent="Menu/TabContainer/Functions"]
+margin_top = 54.0
+margin_right = 183.0
+margin_bottom = 78.0
+pressed = true
+text = "Solid limits"
 
 [node name="SaveSystem" type="Button" parent="Menu/TabContainer/Functions"]
 visible = false
@@ -263,7 +271,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 max_value = 2.0
 step = 0.001
-value = 0.006
+value = 0.014
 
 [node name="VSeparator2" type="VSeparator" parent="Menu/TabContainer/PID/PID"]
 margin_left = 247.0
@@ -420,10 +428,9 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 max_value = 60.0
 step = 0.1
-value = 20.0
+value = 10.0
 
 [node name="Sensor" type="VBoxContainer" parent="Menu/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -478,6 +485,63 @@ size_flags_horizontal = 3
 max_value = 240.0
 step = 0.1
 suffix = " units"
+
+[node name="HSeparator2" type="HSeparator" parent="Menu/TabContainer/Sensor"]
+margin_top = 64.0
+margin_right = 372.0
+margin_bottom = 68.0
+
+[node name="MaxError2" type="HBoxContainer" parent="Menu/TabContainer/Sensor"]
+margin_top = 72.0
+margin_right = 372.0
+margin_bottom = 96.0
+
+[node name="Label" type="Label" parent="Menu/TabContainer/Sensor/MaxError2"]
+margin_top = 5.0
+margin_right = 182.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "EMA filter:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/TabContainer/Sensor/MaxError2"]
+margin_left = 186.0
+margin_right = 277.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="EMAactive" type="CheckBox" parent="Menu/TabContainer/Sensor/MaxError2/HBoxContainer"]
+margin_right = 61.0
+margin_bottom = 24.0
+text = "Active"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Menu/TabContainer/Sensor/MaxError2"]
+margin_left = 281.0
+margin_right = 372.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/TabContainer/Sensor/MaxError2/HBoxContainer2"]
+margin_top = 5.0
+margin_right = 29.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "a = "
+align = 2
+
+[node name="a" type="SpinBox" parent="Menu/TabContainer/Sensor/MaxError2/HBoxContainer2"]
+margin_left = 33.0
+margin_right = 91.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+max_value = 1.0
+step = 0.01
+value = 0.25
 
 [node name="Values" type="HBoxContainer" parent="Menu/TabContainer"]
 visible = false
@@ -596,9 +660,9 @@ size_flags_horizontal = 3
 text = "36.00"
 
 [node name="Error" type="HBoxContainer" parent="Menu"]
-margin_top = 90.0
+margin_top = 137.0
 margin_right = 380.0
-margin_bottom = 104.0
+margin_bottom = 151.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.76
 
@@ -695,19 +759,15 @@ __meta__ = {
 }
 
 [node name="LeftEnd" type="CollisionShape2D" parent="Contraption/Platform"]
-visible = false
 position = Vector2( -115, -10 )
 shape = SubResource( 8 )
-disabled = true
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="RightEnd" type="CollisionShape2D" parent="Contraption/Platform"]
-visible = false
 position = Vector2( 115, -10 )
 shape = SubResource( 8 )
-disabled = true
 __meta__ = {
 "_edit_lock_": true
 }
@@ -734,7 +794,6 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
-max_ang_velocity = 10.0
 
 [node name="PinJoint2D2" type="PinJoint2D" parent="Contraption/Servo"]
 node_a = NodePath("../../Base")
@@ -810,6 +869,7 @@ position = Vector2( 352.482, 422.245 )
 [connection signal="pressed" from="Menu/TabContainer/Functions/RndImpulseBtn" to="Contraption" method="_on_RndImpulseBtn_pressed"]
 [connection signal="toggled" from="Menu/TabContainer/Functions/RandomImpulse" to="Contraption" method="_on_RandomImpulse_toggled"]
 [connection signal="toggled" from="Menu/TabContainer/Functions/RandomSetpoint" to="Contraption" method="_on_RandomSetpoint_toggled"]
+[connection signal="toggled" from="Menu/TabContainer/Functions/SolidLimits" to="Contraption" method="_on_SolidLimits_toggled"]
 [connection signal="value_changed" from="Menu/TabContainer/PID/Setpoint/SetpointVal" to="Contraption" method="_on_SetpointVal_value_changed"]
 [connection signal="pressed" from="Menu/TabContainer/PID/Setpoint/RndSetpointBtn" to="Contraption" method="_on_RndSetpointBtn_pressed"]
 [connection signal="toggled" from="Menu/TabContainer/PID/PID/PCheck" to="Contraption" method="_on_PCheck_toggled"]
@@ -825,4 +885,6 @@ position = Vector2( 352.482, 422.245 )
 [connection signal="value_changed" from="Menu/TabContainer/System/MotorSpeed/ServoSpeedVal" to="Contraption/Servo" method="_on_ServoSpeedVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/Sensor/PollingRate/PollingRateVal" to="Contraption/Platform/RayCast2D" method="_on_PollingRateVal_value_changed"]
 [connection signal="value_changed" from="Menu/TabContainer/Sensor/MaxError/MaxErrorVal" to="Contraption/Platform/RayCast2D" method="_on_MaxErrorVal_value_changed"]
+[connection signal="toggled" from="Menu/TabContainer/Sensor/MaxError2/HBoxContainer/EMAactive" to="Contraption" method="_on_EMAactive_toggled"]
+[connection signal="value_changed" from="Menu/TabContainer/Sensor/MaxError2/HBoxContainer2/a" to="Contraption" method="_on_a_value_changed"]
 [connection signal="measured" from="Contraption/Platform/RayCast2D" to="Contraption" method="_on_RayCast2D_measured"]
