@@ -3,7 +3,7 @@ extends RigidBody2D
 class_name Servo2D
 
 export var deg_setpoint := 0.0
-export var max_ang_velocity := 20.0
+export var max_ang_velocity := 10
 export var max_ang = 76
 export var min_ang = -104
 
