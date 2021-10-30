@@ -4,8 +4,9 @@ onready var ultrasonic: DistanceMeter2D = $Platform/RayCast2D
 onready var servo = $Servo
 
 var P := 0.75
-var I := 0.0060
+var I := 0.014
 var D := 0.375
+var a := 0.25
 
 var PPart := 0.00
 var IPart := 0.00
@@ -18,6 +19,7 @@ var eAntiWindup := true
 var eP := true
 var eI := true
 var eD := true
+var eEMA := false
 
 export(float) var distance_setpoint = 120 setget set_setpoint
 
@@ -39,26 +41,8 @@ var current_ball: Object = null
 var elapsed_arrival_time := 0.00
 var passed_setpoint := false
 
-func get_measurement(delta):
-	if ultrasonic.get_collider() != null:
-		last_measurement = measurement
-		measurement = ultrasonic.result
-		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
-		error = measurement - (distance_setpoint-10)
-		
-		PPart = error*P*int(eP)
-		IPart = integral_error
-		DPart = ball_velocity*(-D) * int(eD)
-		totalContribution = PPart + IPart + DPart
-		
-		deg_setpoint = totalContribution
-		integral_error = (integral_error + error*I) * int(eI)
-		if eAntiWindup:
-			integral_error = clamp(integral_error, -maxIntegralError, maxIntegralError)
-
 func _physics_process(delta):
 	current_ball = ultrasonic.get_collider()
-	get_measurement(delta)
 	servo.rotate_to(deg_setpoint)
 	
 	elapsed_arrival_time += delta
@@ -78,7 +62,6 @@ func _physics_process(delta):
 func on_arrival():
 	if randomImpulseOnArrival: doRandomBallImpulse()
 	if randomSetpointOnArrival: randomize_setpoint()
-	
 
 func _on_ReloadBtn_pressed():
 	get_tree().change_scene("res://World.tscn")
@@ -95,6 +78,9 @@ func _on_IVal_value_changed(value):
 func _on_DVal_value_changed(value):
 	D = value
 
+func _on_a_value_changed(value):
+	a = value
+
 func _on_AWVal_value_changed(value):
 	maxIntegralError = value
 
@@ -106,6 +92,9 @@ func _on_ICheck_toggled(state):
 
 func _on_DCheck_toggled(state):
 	eD = state
+
+func _on_EMAactive_toggled(state):
+	eEMA = state
 
 func _on_AWCheck_toggled(state):
 	eAntiWindup = state
@@ -141,6 +130,12 @@ func _on_RandomImpulse_toggled(button_pressed):
 func _on_RandomSetpoint_toggled(button_pressed):
 	randomSetpointOnArrival = button_pressed
 
+func _on_SolidLimits_toggled(button_pressed):
+	$Platform/LeftEnd.disabled = !button_pressed
+	$Platform/LeftEnd.visible = button_pressed
+	$Platform/RightEnd.disabled = !button_pressed
+	$Platform/RightEnd.visible = button_pressed
+
 func _on_RayCast2D_measured(magnitude, delta):
 	if is_inside_tree():
 		get_parent().get_node("Menu/Error/Value").text = str(stepify(error, 0.01))
@@ -151,16 +146,22 @@ func _on_RayCast2D_measured(magnitude, delta):
 		get_parent().get_node("Menu/TabContainer/Values/Contributions/Total/Val").text = str(stepify(totalContribution, 0.01))
 		
 		last_measurement = measurement
-		measurement = ultrasonic.result
+		if eEMA:
+			measurement = magnitude * a + (1-a) * measurement
+		else:
+			measurement = magnitude
 		ball_velocity = lerp(ball_velocity, (last_measurement - measurement) / delta, 0.3)
+		
 		error = measurement - (distance_setpoint-10)
 		
 		PPart = error*P*int(eP)
-		IPart = integral_error
-		DPart = ball_velocity*(-D) * int(eD)
+		IPart = integral_error * int(eI)
+		DPart = -ball_velocity*D * int(eD)
 		totalContribution = PPart + IPart + DPart
 		
 		deg_setpoint = totalContribution
-		integral_error = (integral_error + delta*error*I) * int(eI)
+		integral_error = (integral_error + error*I) * int(eI)
+		
 		if eAntiWindup:
 			integral_error = clamp(integral_error, -maxIntegralError, maxIntegralError)
+
