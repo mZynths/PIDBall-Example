@@ -14,6 +14,5 @@ func _physics_process(delta):
 func rotate_to(deg):
 	deg_setpoint = clamp(deg, min_ang, max_ang)
 
-
 func _on_ServoSpeedVal_value_changed(value):
 	max_ang_velocity = value
